@@ -1,1 +1,44 @@
+package main
+
+import "fmt"
+
+var idx int
+var result string
+
+func main() {
+    var input string
+    fmt.Print("Masukkan string: ")
+    fmt.Scanln(&input)
+
+    // siapkan index dan result
+    idx = len(input) - 1
+    result = ""
+
+    fmt.Println("Iteratif  :", ReverseIterative(input))
+    fmt.Println("Rekursif :", ReverseRecursive(input))
+}
+
+// Reverse string secara iteratif
+func ReverseIterative(s string) string {
+    res := ""
+    for i := len(s) - 1; i >= 0; i-- {
+        res += string(s[i])
+    }
+    return res
+}
+
+// Reverse string secara rekursif (tanpa helper, tanpa slicing)
+func ReverseRecursive(s string) string {
+    // inisialisasi global untuk pemanggilan pertama
+    if idx == -1 {
+        return result
+    }
+
+    result += string(s[idx])
+    idx--
+
+    return ReverseRecursive(s) // rekursi murni
+}
+
+
 
