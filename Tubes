@@ -1,44 +1,107 @@
-package main
+//tree.h
+#ifndef TREE_H_INCLUDED
+#define TREE_H_INCLUDED
+using namespace std;
 
-import "fmt"
+typedef int infotype;
+typedef struct Node* adrNode;
 
-var idx int
-var result string
+struct Node {
+    infotype info;
+    adrNode left;
+    adrNode right;
+};
 
-func main() {
-    var input string
-    fmt.Print("Masukkan string: ")
-    fmt.Scanln(&input)
+void createTree_103012400246(adrNode &root);
+adrNode createNode_103012400246(infotype x);
+void insertNode_103012400246(adrNode &root, adrNode p);
+void displayTree_103012400246(adrNode root);
+adrNode getMinNode_103012400246(adrNode root);
+adrNode getMaxNode_103012400246(adrNode root);
 
-    // siapkan index dan result
-    idx = len(input) - 1
-    result = ""
+#endif // TREE_H_INCLUDED
 
-    fmt.Println("Iteratif  :", ReverseIterative(input))
-    fmt.Println("Rekursif :", ReverseRecursive(input))
+
+//tree.cpp
+#include <iostream>
+#include "tree.h"
+using namespace std;
+
+void createTree_103012400246(adrNode &root) {
+    root = nullptr;
 }
 
-// Reverse string secara iteratif
-func ReverseIterative(s string) string {
-    res := ""
-    for i := len(s) - 1; i >= 0; i-- {
-        res += string(s[i])
+adrNode createNode_103012400246(infotype x) {
+    adrNode p = new Node;
+    p->info = x;
+    p->left = nullptr;
+    p->right = nullptr;
+    return p;
+}
+
+void insertNode_103012400246(adrNode &root, adrNode p) {
+    if (root == nullptr) {
+        root = p;
+    } else if (p->info < root->info) {
+        insertNode_103012400246(root->left, p);
+    } else {
+        insertNode_103012400246(root->right, p);
     }
-    return res
 }
 
-// Reverse string secara rekursif (tanpa helper, tanpa slicing)
-func ReverseRecursive(s string) string {
-    // inisialisasi global untuk pemanggilan pertama
-    if idx == -1 {
-        return result
+void displayTree_103012400246(adrNode root) {
+    if (root != nullptr) {
+        displayTree_103012400246(root->left);
+        cout << root->info << " ";
+        displayTree_103012400246(root->right);
+    }
+}
+
+adrNode getMinNode_103012400246(adrNode root) {
+    adrNode p;
+    p = root;
+
+    while (p != nullptr && p->left != nullptr) {
+        p = p->left;
     }
 
-    result += string(s[idx])
-    idx--
+    return p;
+}
 
-    return ReverseRecursive(s) // rekursi murni
+adrNode getMaxNode_103012400246(adrNode root) {
+    adrNode p;
+    p = root;
+
+    while (p != nullptr && p->right != nullptr) {
+        p = p->right;
+    }
+
+    return p;
 }
 
 
+//main.cpp
+#include <iostream>
+#include "tree.h"
+using namespace std;
 
+int main()
+{
+    adrNode root, p;
+    int n, i;
+    createTree_103012400246(root);
+
+    for (i = 0; i < 9; i++) {
+        cout << "Masukkan node: ";
+        cin >> n;
+        p = createNode_103012400246(n);
+        insertNode_103012400246(root, p);
+    }
+
+    cout << "\nNode dalam BST: ";
+    displayTree_103012400246(root);
+
+    cout << "\nNode terkecil dalam BST: " << getMinNode_103012400246(root)->info;
+    cout << "\nNode terbesar dalam BST: " << getMaxNode_103012400246(root)->info;
+
+}
