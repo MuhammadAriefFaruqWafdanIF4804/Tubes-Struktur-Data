@@ -1,107 +1,99 @@
-//tree.h
-#ifndef TREE_H_INCLUDED
-#define TREE_H_INCLUDED
+#ifndef HEADER(MLL)_H_INCLUDED
+#define HEADER(MLL)_H_INCLUDED
+
+#include <iostream>
 using namespace std;
 
-typedef int infotype;
-typedef struct Node* adrNode;
+typedef struct elmGame*adrGame;
+typedef struct elmAchievement*adrAchievement;
 
-struct Node {
-    infotype info;
-    adrNode left;
-    adrNode right;
+struct Game {
+    string GameID;
+    string title;
+    string genre;
+    string platform;
 };
 
-void createTree_103012400246(adrNode &root);
-adrNode createNode_103012400246(infotype x);
-void insertNode_103012400246(adrNode &root, adrNode p);
-void displayTree_103012400246(adrNode root);
-adrNode getMinNode_103012400246(adrNode root);
-adrNode getMaxNode_103012400246(adrNode root);
+struct Achievement {
+    string achievementName;
+};
 
-#endif // TREE_H_INCLUDED
+struct elmGame {
+    Game info;
+    adrGame next;
+    adrGame prev;
+    adrAchievement firstACV;
+};
 
+struct elmAchievement {
+    Achievement info;
+    adrAchievement next;
+    adrAchievement prev;
+};
 
-//tree.cpp
-#include <iostream>
-#include "tree.h"
-using namespace std;
+struct ListGame {
+    adrGame first;
+    adrGame last;
+};
 
-void createTree_103012400246(adrNode &root) {
-    root = nullptr;
-}
+// #Greetings
+void fiturPage();
+void welcomePage();
+void closeCMD();
 
-adrNode createNode_103012400246(infotype x) {
-    adrNode p = new Node;
-    p->info = x;
-    p->left = nullptr;
-    p->right = nullptr;
-    return p;
-}
+//Eksekusi Fitur
+//void executeOpsi(ListGame &L, adrGame game, adrAchievement acv, int opsi);
+void executeOpsi(ListGame &L, int opsi);
 
-void insertNode_103012400246(adrNode &root, adrNode p) {
-    if (root == nullptr) {
-        root = p;
-    } else if (p->info < root->info) {
-        insertNode_103012400246(root->left, p);
-    } else {
-        insertNode_103012400246(root->right, p);
-    }
-}
+//Create
+void createListGame(ListGame &L);
+bool isEmptyGame(ListGame L);
+bool isEmptyAchievement(adrAchievement p);
+bool isGameExists(ListGame L, string judulGame);
+adrGame createElmGame(string GameID, string title, string genre, string platform);
+adrAchievement createElmAchievement(string achievementName);
 
-void displayTree_103012400246(adrNode root) {
-    if (root != nullptr) {
-        displayTree_103012400246(root->left);
-        cout << root->info << " ";
-        displayTree_103012400246(root->right);
-    }
-}
+//Add
+void addGame(ListGame &L, adrGame p);
+void addAchievement(adrGame &p, adrAchievement q);
 
-adrNode getMinNode_103012400246(adrNode root) {
-    adrNode p;
-    p = root;
-
-    while (p != nullptr && p->left != nullptr) {
-        p = p->left;
-    }
-
-    return p;
-}
-
-adrNode getMaxNode_103012400246(adrNode root) {
-    adrNode p;
-    p = root;
-
-    while (p != nullptr && p->right != nullptr) {
-        p = p->right;
-    }
-
-    return p;
-}
+//Display
+void displayListGame(ListGame L);
+void displayGame(adrGame p);
 
 
-//main.cpp
-#include <iostream>
-#include "tree.h"
-using namespace std;
+//Delete
+void deleteGameByTitle(ListGame &L, string title);
+void deleteAchievementsByAchievementName(ListGame &L, string achievementName);
 
-int main()
-{
-    adrNode root, p;
-    int n, i;
-    createTree_103012400246(root);
+//Update
+void updateGame(ListGame &L);
+void updateAchievementName(ListGame &L, string &title, string &oldName, string &newName);
 
-    for (i = 0; i < 9; i++) {
-        cout << "Masukkan node: ";
-        cin >> n;
-        p = createNode_103012400246(n);
-        insertNode_103012400246(root, p);
-    }
+//Search
+adrGame searchGameByTitle(ListGame L, string title);
+void searchGameByGenre(ListGame L, string genre);
+void searchGameByPlatform(ListGame L, string platform);
+void searchAchievementByTitle(adrGame p);
 
-    cout << "\nNode dalam BST: ";
-    displayTree_103012400246(root);
+//Sorting
+void sortGameByTitleAZ(ListGame &L);
+void sortGameByTitleZA(ListGame &L);
+void sortGameByAchievementCount(ListGame &L);
 
-    cout << "\nNode terkecil dalam BST: " << getMinNode_103012400246(root)->info;
-    cout << "\nNode terbesar dalam BST: " << getMaxNode_103012400246(root)->info;
+//Count
+int countGameByTitle(ListGame L, string title);
+int countAchievement(adrAchievement firstACV);
+int countGameByPlatform(ListGame L, string platform);
+int countGameByGenre(ListGame L, string genre);
 
-}
+//GetMinMax
+adrGame getGameWithMaxAchievement(ListGame L);
+adrGame getGameWithMinAchievement(ListGame L);
+
+
+//Utility
+void pauseEnter();
+void clearScreen();
+
+#endif // HEADER(MLL)_H_INCLUDED
