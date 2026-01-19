@@ -1,107 +1,41 @@
-//tree.h
-#ifndef TREE_H_INCLUDED
-#define TREE_H_INCLUDED
-using namespace std;
-
-typedef int infotype;
-typedef struct Node* adrNode;
-
-struct Node {
-    infotype info;
-    adrNode left;
-    adrNode right;
-};
-
-void createTree_103012400246(adrNode &root);
-adrNode createNode_103012400246(infotype x);
-void insertNode_103012400246(adrNode &root, adrNode p);
-void displayTree_103012400246(adrNode root);
-adrNode getMinNode_103012400246(adrNode root);
-adrNode getMaxNode_103012400246(adrNode root);
-
-#endif // TREE_H_INCLUDED
-
-
-//tree.cpp
 #include <iostream>
-#include "tree.h"
+#include "header_MLL.h"
 using namespace std;
 
-void createTree_103012400246(adrNode &root) {
-    root = nullptr;
-}
+int main() {
 
-adrNode createNode_103012400246(infotype x) {
-    adrNode p = new Node;
-    p->info = x;
-    p->left = nullptr;
-    p->right = nullptr;
-    return p;
-}
+    ListGame L;
+    createListGame(L);
 
-void insertNode_103012400246(adrNode &root, adrNode p) {
-    if (root == nullptr) {
-        root = p;
-    } else if (p->info < root->info) {
-        insertNode_103012400246(root->left, p);
-    } else {
-        insertNode_103012400246(root->right, p);
-    }
-}
+    int opsi = -1;
+    bool inputValid;
 
-void displayTree_103012400246(adrNode root) {
-    if (root != nullptr) {
-        displayTree_103012400246(root->left);
-        cout << root->info << " ";
-        displayTree_103012400246(root->right);
-    }
-}
+    welcomePage();
 
-adrNode getMinNode_103012400246(adrNode root) {
-    adrNode p;
-    p = root;
+    while (opsi != 0) {
+        fiturPage();
+        cout << "Pilih opsi: ";
+        cin >> opsi;
 
-    while (p != nullptr && p->left != nullptr) {
-        p = p->left;
+        inputValid = true;
+
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(10000, '\n');
+
+            clearScreen();
+            cout << "[!] Input harus berupa ANGKA!\n";
+            pauseEnter();
+
+            opsi = -1;
+            inputValid = false;
+        }
+
+        if (inputValid && opsi != 0) {
+            executeOpsi(L, opsi);
+        }
     }
 
-    return p;
-}
-
-adrNode getMaxNode_103012400246(adrNode root) {
-    adrNode p;
-    p = root;
-
-    while (p != nullptr && p->right != nullptr) {
-        p = p->right;
-    }
-
-    return p;
-}
-
-
-//main.cpp
-#include <iostream>
-#include "tree.h"
-using namespace std;
-
-int main()
-{
-    adrNode root, p;
-    int n, i;
-    createTree_103012400246(root);
-
-    for (i = 0; i < 9; i++) {
-        cout << "Masukkan node: ";
-        cin >> n;
-        p = createNode_103012400246(n);
-        insertNode_103012400246(root, p);
-    }
-
-    cout << "\nNode dalam BST: ";
-    displayTree_103012400246(root);
-
-    cout << "\nNode terkecil dalam BST: " << getMinNode_103012400246(root)->info;
-    cout << "\nNode terbesar dalam BST: " << getMaxNode_103012400246(root)->info;
-
+    closeCMD();
+    return 0;
 }
